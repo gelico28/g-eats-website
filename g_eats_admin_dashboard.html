@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G-EATS - Restaurant Admin Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Fredoka & Caveat for playful food text, Inter for UI -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        geats: {
+                            sidebar: '#8B1014',
+                            sidebarDark: '#3A0D0E',
+                            sidebarHover: '#A3151A',
+                            sidebarActive: '#FFC837',
+                            sidebarActiveText: '#7A0C10',
+                            bg: '#FFF5E9',
+                            cardBg: '#FFFFFF',
+                            accent: '#FFB800',
+                            accentHover: '#E0A200',
+                            textDark: '#2D1515',
+                            border: '#F7D0B2'
+                        }
+                    },
+                    fontFamily: {
+                        fredoka: ['Fredoka', 'sans-serif'],
+                        caveat: ['Caveat', 'cursive'],
+                        inter: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FFF5E9;
+            color: #2D1515;
+            overflow: hidden;
+        }
+        .heading-font { font-family: 'Fredoka', sans-serif; }
+        .slogan-font { font-family: 'Caveat', cursive; }
+        
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #FFF5E9; }
+        ::-webkit-scrollbar-thumb { background: #E5A880; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #8B1014; }
+
+        @keyframes modalAnimate {
+            0% { transform: scale(0.96); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-modal { animation: modalAnimate 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-row overflow-hidden antialiased bg-geats-bg select-none">
+
+    <aside class="w-64 bg-geats-sidebar flex flex-col justify-between flex-shrink-0 h-full shadow-2xl z-30 relative border-r border-red-950/40">
+        <div>
+            <!-- G-EATS Header with Exact Logo Graphic matching received image -->
+            <div class="px-5 py-5 flex flex-col items-center border-b border-red-900/60 relative">
+                
+                <!-- EXACT SVG REPRODUCTION OF G-EATS LOGO IMAGE -->
+                <div class="w-28 h-28 rounded-full shadow-2xl relative flex items-center justify-center transform hover:scale-105 transition duration-300">
+                    <svg viewBox="0 0 200 200" class="w-full h-full">
+                        <defs>
+                            <!-- Curved Path for Arched G-EATS Header Text -->
+                            <path id="geatsArcText" d="M 32,100 A 68,68 0 0,1 168,100" />
+                        </defs>
+
+                        <!-- Outer Black/Dark Brown Circle Rim -->
+                        <circle cx="100" cy="100" r="98" fill="#3A0D0E"/>
+                        
+                        <!-- Middle White Circle Ring -->
+                        <circle cx="100" cy="100" r="95" fill="#FFFFFF"/>
+                        
+                        <!-- Red Inner Circle Ring -->
+                        <circle cx="100" cy="100" r="91" fill="#BA2D2D"/>
+                        
+                        <!-- Cream/Beige Main Inner Background -->
+                        <circle cx="100" cy="100" r="84" fill="#FFEBB8"/>
+                        
+                        <!-- Arched BOLD Black "G-EATS" Text at the Top -->
+                        <text font-family="Fredoka, Inter, sans-serif" font-weight="900" font-size="28" fill="#000000" letter-spacing="1">
+                            <textPath href="#geatsArcText" startOffset="50%" text-anchor="middle">G-EATS</textPath>
+                        </text>
+
+                        <!-- Left Asian / Kanji Character Symbol -->
+                        <text x="24" y="105" font-family="sans-serif" font-weight="bold" font-size="18" fill="#000000" text-anchor="middle">走</text>
+
+                        <!-- Right Asian / Kanji Character Symbol -->
+                        <text x="176" y="105" font-family="sans-serif" font-weight="bold" font-size="18" fill="#000000" text-anchor="middle">査</text>
+
+                        <!-- Anime Girl Mascot Character -->
+                        <g transform="translate(0, 5)">
+                            <!-- Black Hair Pigtails Left & Right -->
+                            <!-- Left Pigtail -->
+                            <path d="M 62 82 C 30 65, 35 110, 60 102 Z" fill="#0A0A0A"/>
+                            <!-- Right Pigtail -->
+                            <path d="M 138 82 C 170 65, 165 110, 140 102 Z" fill="#0A0A0A"/>
+                            
+                            <!-- Red Hair Ties -->
+                            <ellipse cx="62" cy="85" rx="5" ry="3" fill="#C82828"/>
+                            <ellipse cx="138" cy="85" rx="5" ry="3" fill="#C82828"/>
+
+                            <!-- Face Base (Peach Tone) -->
+                            <ellipse cx="100" cy="98" rx="34" ry="28" fill="#FFF0E3"/>
+                            
+                            <!-- Rosy Pink Cheeks -->
+                            <ellipse cx="78" cy="104" rx="8" ry="5" fill="#FF8A8A" opacity="0.8"/>
+                            <ellipse cx="122" cy="104" rx="8" ry="5" fill="#FF8A8A" opacity="0.8"/>
+
+                            <!-- Happy Closed Curved Eyes -->
+                            <path d="M 72 96 Q 80 88 88 96" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round"/>
+                            <path d="M 112 96 Q 120 88 128 96" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round"/>
+
+                            <!-- Eyelashes Accent -->
+                            <path d="M 70 94 L 66 90" stroke="#000000" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M 130 94 L 134 90" stroke="#000000" stroke-width="2" stroke-linecap="round"/>
+
+                            <!-- Cute Nose Dot -->
+                            <circle cx="100" cy="102" r="1.8" fill="#000000"/>
+
+                            <!-- Open Happy Smile Mouth -->
+                            <path d="M 91 106 Q 100 118 109 106 Z" fill="#C82828" stroke="#000000" stroke-width="2"/>
+                            <!-- Tongue inside mouth -->
+                            <path d="M 94 112 Q 100 110 106 112 Q 100 117 94 112 Z" fill="#FFAAAA"/>
+
+                            <!-- Main Hair Cut / Bangs -->
+                            <path d="M 66 86 C 68 62, 132 62, 134 86 Q 120 72 100 84 Q 80 72 66 86 Z" fill="#0A0A0A"/>
+                            <!-- Hair Highlights -->
+                            <path d="M 80 70 Q 88 67 92 72" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0.6" stroke-linecap="round"/>
+                            <path d="M 108 72 Q 112 67 120 70" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0.6" stroke-linecap="round"/>
+
+                            <!-- Pink Shirt Collar -->
+                            <path d="M 82 122 Q 100 130 118 122 L 126 142 L 74 142 Z" fill="#E88A8A" stroke="#000000" stroke-width="1.5"/>
+
+                            <!-- Hands Holding Chopsticks -->
+                            <!-- Chopsticks -->
+                            <line x1="72" y1="120" x2="114" y2="108" stroke="#000000" stroke-width="3.5" stroke-linecap="round"/>
+                            <line x1="70" y1="125" x2="114" y2="112" stroke="#000000" stroke-width="3.5" stroke-linecap="round"/>
+                            
+                            <!-- Left Hand holding chopsticks -->
+                            <ellipse cx="76" cy="124" rx="8" ry="6" fill="#FFF0E3" stroke="#000000" stroke-width="1.5"/>
+
+                            <!-- Hanging Noodles from Chopsticks into mouth -->
+                            <path d="M 100 110 L 100 140" fill="none" stroke="#FFF0B0" stroke-width="4"/>
+                            <path d="M 96 112 L 96 138" fill="none" stroke="#FFE388" stroke-width="3"/>
+                            <path d="M 104 112 L 104 138" fill="none" stroke="#FFE388" stroke-width="3"/>
+
+                            <!-- Red Takeout Box Folded Out -->
+                            <!-- Takeout Flaps Top Outer -->
+                            <polygon points="40,126 100,144 160,126 135,145 65,145" fill="#D83838" stroke="#000000" stroke-width="1.5"/>
+                            <!-- Main Box Body Front -->
+                            <polygon points="45,142 155,142 145,182 55,182" fill="#C82828" stroke="#000000" stroke-width="2"/>
+                            <!-- Box Center Fold Divider Line -->
+                            <line x1="100" y1="142" x2="100" y2="182" stroke="#A81818" stroke-width="2"/>
+
+                            <!-- Noodles inside Box -->
+                            <path d="M 75 142 Q 85 132 100 138 Q 115 132 125 142 Z" fill="#FFF0B0" stroke="#000000" stroke-width="1.5"/>
+                            <path d="M 80 140 Q 90 148 100 142 Q 110 148 120 140" fill="none" stroke="#E5AC38" stroke-width="2"/>
+                        </g>
+                    </svg>
+                </div>
+
+                <div class="text-center mt-2">
+                    <h1 class="heading-font text-2xl font-black text-amber-300 tracking-wider drop-shadow">G-EATS</h1>
+                    <p class="text-[11px] text-amber-100/80 font-bold tracking-wider uppercase">Restaurant Dashboard</p>
+                </div>
+            </div>
+
+            <nav class="p-3 space-y-1.5 font-semibold text-xs">
+                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all duration-200 bg-geats-sidebarActive text-geats-sidebarActiveText font-bold shadow-md">
+                    <i class="fa-solid fa-gauge-high text-base w-5 text-center"></i>
+                    <span>Dashboard</span>
+                </button>
+
+                <button onclick="switchTab('easy-reservation')" id="nav-easy-reservation" class="nav-item w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all duration-200 text-amber-100 hover:bg-geats-sidebarHover hover:text-white">
+                    <i class="fa-solid fa-utensils text-base w-5 text-center"></i>
+                    <span>Easy Reservation</span>
+                </button>
+
+                <button onclick="switchTab('reservation-mgmt')" id="nav-reservation-mgmt" class="nav-item w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all duration-200 text-amber-100 hover:bg-geats-sidebarHover hover:text-white">
+                    <i class="fa-solid fa-calendar-check text-base w-5 text-center"></i>
+                    <span>Reservation Management</span>
+                </button>
+
+                <button onclick="switchTab('client-tracking')" id="nav-client-tracking" class="nav-item w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all duration-200 text-amber-100 hover:bg-geats-sidebarHover hover:text-white">
+                    <i class="fa-solid fa-address-book text-base w-5 text-center"></i>
+                    <span>Client Tracking</span>
+                </button>
+
+                <button onclick="switchTab('order-mgmt')" id="nav-order-mgmt" class="nav-item w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all duration-200 text-amber-100 hover:bg-geats-sidebarHover hover:text-white">
+                    <i class="fa-solid fa-receipt text-base w-5 text-center"></i>
+                    <span>Order Management</span>
+                </button>
+
+                <button onclick="switchTab('status-monitoring')" id="nav-status-monitoring" class="nav-item w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all duration-200 text-amber-100 hover:bg-geats-sidebarHover hover:text-white">
+                    <i class="fa-solid fa-chart-line text-base w-5 text-center"></i>
+                    <span>Order Status Monitoring</span>
+                </button>
+
+                <button onclick="switchTab('user-mgmt')" id="nav-user-mgmt" class="nav-item w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all duration-200 text-amber-100 hover:bg-geats-sidebarHover hover:text-white">
+                    <i class="fa-solid fa-users-gear text-base w-5 text-center"></i>
+                    <span>User Management</span>
+                </button>
+            </nav>
+        </div>
+
+        <div class="p-3 m-3 bg-red-950/60 rounded-2xl border border-red-800/40 relative overflow-hidden text-center">
+            <div class="flex justify-center gap-2 text-amber-300 text-lg mb-1 opacity-80">
+                <span>🍜</span><span>🥟</span><span>🧀</span>
+            </div>
+            <p class="text-[10px] text-amber-200 font-bold uppercase tracking-wider">G-EATS Admin System</p>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
+        
+        <header class="bg-white border-b border-geats-border px-8 py-3.5 flex items-center justify-between flex-shrink-0 z-20 shadow-xs">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl">🍱</span>
+                <h2 id="top-bar-title" class="heading-font text-2xl font-bold text-geats-sidebar tracking-tight">Dashboard</h2>
+            </div>
+
+            <div class="flex items-center gap-8">
+                <div class="hidden lg:flex items-center gap-2 bg-amber-50 px-4 py-1.5 rounded-full border border-amber-200 shadow-2xs">
+                    <span class="slogan-font text-xl font-bold text-red-700">Good Food, Happy People!</span>
+                    <span class="text-lg">🍜</span>
+                </div>
+
+                <button class="relative p-2.5 rounded-xl text-amber-900 hover:bg-amber-50 transition border border-geats-border">
+                    <i class="fa-regular fa-bell text-lg"></i>
+                    <span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-600 rounded-full border-2 border-white"></span>
+                </button>
+
+                <div class="flex items-center gap-3 pl-4 border-l border-geats-border">
+                    <div class="w-10 h-10 rounded-xl bg-geats-sidebar text-amber-300 font-black flex items-center justify-center border-2 border-geats-accent shadow-sm">
+                        <i class="fa-solid fa-user-ninja"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-extrabold text-gray-800 leading-none">Admin</p>
+                        <p class="text-[10px] font-semibold text-amber-700 mt-1">Administrator</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-xs text-amber-700 ml-1"></i>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-8 space-y-8 bg-geats-bg">
+
+            <!-- TAB 1: DASHBOARD OVERVIEW -->
+            <section id="tab-dashboard" class="tab-content space-y-8">
+                <div class="bg-gradient-to-r from-amber-100 via-amber-50 to-orange-100 rounded-2xl p-6 border border-amber-200/80 shadow-sm flex items-center justify-between">
+                    <div>
+                        <h2 class="heading-font text-3xl font-extrabold text-geats-textDark mb-1">Welcome back, Admin! 👋</h2>
+                        <p class="text-amber-900 font-medium text-sm">Here's what's happening with your restaurant today.</p>
+                    </div>
+                    <div class="flex items-center gap-3 bg-white/90 backdrop-blur px-6 py-3 rounded-2xl border border-amber-200 shadow-sm">
+                        <span class="text-3xl animate-bounce">🍜</span>
+                        <div>
+                            <span class="heading-font text-lg font-bold text-geats-sidebar block leading-tight">Good Food</span>
+                            <span class="heading-font text-xs font-bold text-amber-600 block leading-tight uppercase tracking-wider">Happy People!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-4 gap-6">
+                    <div class="bg-geats-sidebar text-white rounded-2xl p-6 shadow-sm border border-red-950 flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-bold text-amber-200 uppercase tracking-wider mb-1">Total Reservations</p>
+                            <h3 class="heading-font text-4xl font-extrabold text-white mb-2" id="dash-res-count">12</h3>
+                            <p class="text-xs text-emerald-300 font-semibold flex items-center gap-1">
+                                <i class="fa-solid fa-arrow-trend-up"></i> ↑ 20% vs yesterday
+                            </p>
+                        </div>
+                        <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-amber-300 text-3xl">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-geats-accent text-geats-textDark rounded-2xl p-6 shadow-sm border border-amber-400 flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-extrabold text-amber-950 uppercase tracking-wider mb-1">Total Orders</p>
+                            <h3 class="heading-font text-4xl font-extrabold text-geats-textDark mb-2" id="dash-orders-count">28</h3>
+                            <p class="text-xs text-amber-950 font-bold flex items-center gap-1">
+                                <i class="fa-solid fa-arrow-trend-up"></i> ↑ 15% vs yesterday
+                            </p>
+                        </div>
+                        <div class="w-14 h-14 rounded-2xl bg-amber-400/50 flex items-center justify-center text-geats-textDark text-3xl">
+                            <i class="fa-solid fa-utensils"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-geats-border flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-extrabold text-gray-500 uppercase tracking-wider mb-1">Total Clients</p>
+                            <h3 class="heading-font text-4xl font-extrabold text-gray-800 mb-2" id="dash-clients-count">24</h3>
+                            <p class="text-xs text-emerald-600 font-bold flex items-center gap-1">
+                                <i class="fa-solid fa-arrow-trend-up"></i> ↑ 12% vs yesterday
+                            </p>
+                        </div>
+                        <div class="w-14 h-14 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-600 text-3xl">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-geats-sidebar text-white rounded-2xl p-6 shadow-sm border border-red-950 flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-bold text-amber-200 uppercase tracking-wider mb-1">Pending Orders</p>
+                            <h3 class="heading-font text-4xl font-extrabold text-white mb-2" id="dash-pending-count">6</h3>
+                            <p class="text-xs text-amber-300 font-semibold flex items-center gap-1">
+                                <i class="fa-solid fa-circle-exclamation"></i> 2 need attention
+                            </p>
+                        </div>
+                        <div class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-amber-300 text-3xl">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-8">
+                    <div class="col-span-2 bg-white rounded-2xl p-6 border border-geats-border shadow-sm">
+                        <div class="flex items-center justify-between mb-5">
+                            <h3 class="heading-font text-xl font-bold text-gray-800">Recent Orders</h3>
+                            <button onclick="switchTab('order-mgmt')" class="text-xs font-bold text-amber-800 hover:underline flex items-center gap-1">
+                                View All <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm">
+                                <thead>
+                                    <tr class="bg-amber-50/70 text-amber-950 border-b border-amber-100 text-xs font-bold uppercase tracking-wider">
+                                        <th class="p-3.5 rounded-l-xl">#</th>
+                                        <th class="p-3.5">Order No.</th>
+                                        <th class="p-3.5">Client</th>
+                                        <th class="p-3.5">Status</th>
+                                        <th class="p-3.5 rounded-r-xl">Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-amber-50" id="dash-orders-table">
+                                    <!-- Populated via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-amber-100 to-amber-200/70 rounded-2xl p-6 border border-amber-300/80 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="heading-font text-xl font-bold text-geats-textDark">Today's Summary</h3>
+                                <span class="p-2.5 bg-white/80 rounded-xl text-2xl shadow-xs">🍲</span>
+                            </div>
+                            <p class="text-xs font-bold text-amber-900 uppercase tracking-wider">Total Revenue</p>
+                            <h2 class="heading-font text-5xl font-black text-geats-sidebar my-3">₱ <span id="dash-revenue">5,480</span></h2>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                                <i class="fa-solid fa-arrow-trend-up"></i> ↑ 18% vs. yesterday
+                            </span>
+                        </div>
+
+                        <div class="mt-8 pt-6 border-t border-amber-300/80 text-center">
+                            <div class="text-6xl mb-2 animate-bounce">🍱</div>
+                            <p class="text-xs font-bold text-amber-950">Peak customer traffic expected at 6:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tab-easy-reservation" class="tab-content hidden space-y-8">
+                <div class="text-center max-w-3xl mx-auto space-y-1">
+                    <h2 class="heading-font text-4xl font-extrabold text-geats-sidebar">Easy Reservation</h2>
+                    <p class="text-amber-900 text-sm font-semibold">Quick and easy reservation for your favorite meals!</p>
+                </div>
+
+                <div class="grid grid-cols-4 gap-6 max-w-5xl mx-auto">
+                    <div class="bg-white rounded-2xl p-5 border border-amber-200 text-center shadow-xs">
+                        <div class="w-8 h-8 rounded-full bg-geats-sidebar text-white font-black flex items-center justify-center mx-auto mb-2 text-xs">1</div>
+                        <i class="fa-solid fa-calendar-days text-2xl text-amber-800 mb-2"></i>
+                        <h4 class="heading-font font-bold text-gray-800 text-sm">Select Date and Time</h4>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-5 border border-amber-200 text-center shadow-xs">
+                        <div class="w-8 h-8 rounded-full bg-geats-sidebar text-white font-black flex items-center justify-center mx-auto mb-2 text-xs">2</div>
+                        <i class="fa-solid fa-users text-2xl text-amber-800 mb-2"></i>
+                        <h4 class="heading-font font-bold text-gray-800 text-sm">Enter Customer Details</h4>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-5 border border-amber-200 text-center shadow-xs">
+                        <div class="w-8 h-8 rounded-full bg-geats-sidebar text-white font-black flex items-center justify-center mx-auto mb-2 text-xs">3</div>
+                        <i class="fa-solid fa-utensils text-2xl text-amber-800 mb-2"></i>
+                        <h4 class="heading-font font-bold text-gray-800 text-sm">Choose Table and Menu</h4>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-5 border border-amber-200 text-center shadow-xs">
+                        <div class="w-8 h-8 rounded-full bg-geats-sidebar text-white font-black flex items-center justify-center mx-auto mb-2 text-xs">4</div>
+                        <i class="fa-solid fa-circle-check text-2xl text-emerald-600 mb-2"></i>
+                        <h4 class="heading-font font-bold text-gray-800 text-sm">Confirm Reservation</h4>
+                    </div>
+                </div>
+
+                <!-- EASY RESERVATION FORM CONTAINER WITH PRESERVED SUPABASE IDs -->
+                <div id="easy-res-form-container" class="max-w-5xl mx-auto bg-white rounded-3xl p-8 border border-geats-border shadow-md grid grid-cols-3 gap-8 items-center relative overflow-hidden">
+                    
+                    <form id="easy-reserve-form" onsubmit="submitEasyReservation(event)" class="col-span-2 space-y-6">
+                        <div class="grid grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-amber-950 mb-1.5">Date</label>
+                                <input type="date" id="ez-date" required class="w-full px-3 py-3 rounded-xl border border-geats-border bg-geats-bg focus:outline-none focus:ring-2 focus:ring-amber-400 text-xs font-semibold">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-amber-950 mb-1.5">Time</label>
+                                <select id="ez-time" required class="w-full px-3 py-3 rounded-xl border border-geats-border bg-geats-bg focus:outline-none focus:ring-2 focus:ring-amber-400 text-xs font-semibold">
+                                    <option value="">Select time</option>
+                                    <option value="11:30 AM">11:30 AM</option>
+                                    <option value="12:00 PM">12:00 PM</option>
+                                    <option value="01:30 PM">01:30 PM</option>
+                                    <option value="05:00 PM">05:00 PM</option>
+                                    <option value="06:30 PM">06:30 PM</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-amber-950 mb-1.5">Number of Guests</label>
+                                <select id="ez-guests" required class="w-full px-3 py-3 rounded-xl border border-geats-border bg-geats-bg focus:outline-none focus:ring-2 focus:ring-amber-400 text-xs font-semibold">
+                                    <option value="1 Guest">1 guest</option>
+                                    <option value="2 Guests" selected>2 guests</option>
+                                    <option value="3 Guests">3 guests</option>
+                                    <option value="4 Guests">4 guests</option>
+                                    <option value="5+ Guests">5+ guests</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-amber-950 mb-1.5">Customer Name</label>
+                                <input type="text" id="ez-name" placeholder="Enter customer name" required class="w-full px-4 py-3 rounded-xl border border-geats-border bg-geats-bg focus:outline-none focus:ring-2 focus:ring-amber-400 text-xs font-semibold">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-amber-950 mb-1.5">Contact Number</label>
+                                <input type="tel" id="ez-phone" placeholder="09XX XXX XXXX" required class="w-full px-4 py-3 rounded-xl border border-geats-border bg-geats-bg focus:outline-none focus:ring-2 focus:ring-amber-400 text-xs font-semibold">
+                            </div>
+                        </div>
+
+                        <button type="submit" id="ez-submit-btn" class="w-full py-3.5 bg-geats-sidebar hover:bg-geats-sidebarHover text-white font-extrabold rounded-xl shadow-lg transition duration-200 text-sm heading-font tracking-wider flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-magnifying-glass"></i> Check Availability & Reserve Now
+                        </button>
+                    </form>
+
+                    <div class="flex flex-col items-center justify-center text-center pl-4 border-l border-amber-100 relative">
+                        <div class="slogan-font text-3xl font-black text-red-700 transform -rotate-6 mb-1">Reserve Now!</div>
+                        <div class="w-44 h-44">
+                            <!-- Mascot Logo Graphic Vector -->
+                            <svg viewBox="0 0 200 200" class="w-full h-full">
+                                <circle cx="100" cy="100" r="95" fill="#3A0D0E"/>
+                                <circle cx="100" cy="100" r="88" fill="#BA2D2D"/>
+                                <circle cx="100" cy="100" r="80" fill="#FFEBB8"/>
+                                <g transform="translate(0, 5)">
+                                    <path d="M 62 82 C 30 65, 35 110, 60 102 Z" fill="#0A0A0A"/>
+                                    <path d="M 138 82 C 170 65, 165 110, 140 102 Z" fill="#0A0A0A"/>
+                                    <ellipse cx="62" cy="85" rx="5" ry="3" fill="#C82828"/>
+                                    <ellipse cx="138" cy="85" rx="5" ry="3" fill="#C82828"/>
+                                    <ellipse cx="100" cy="98" rx="34" ry="28" fill="#FFF0E3"/>
+                                    <ellipse cx="78" cy="104" rx="8" ry="5" fill="#FF8A8A" opacity="0.8"/>
+                                    <ellipse cx="122" cy="104" rx="8" ry="5" fill="#FF8A8A" opacity="0.8"/>
+                                    <path d="M 72 96 Q 80 88 88 96" fill="none" stroke="#000000" stroke-width="3"/>
+                                    <path d="M 112 96 Q 120 88 128 96" fill="none" stroke="#000000" stroke-width="3"/>
+                                    <path d="M 91 106 Q 100 118 109 106 Z" fill="#C82828" stroke="#000000" stroke-width="2"/>
+                                    <polygon points="45,142 155,142 145,182 55,182" fill="#C82828" stroke="#000000" stroke-width="2"/>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tab-reservation-mgmt" class="tab-content hidden space-y-6">
+                <div class="flex justify-between items-center bg-white p-5 rounded-2xl border border-geats-border shadow-xs">
+                    <div>
+                        <h2 class="heading-font text-xl font-bold text-geats-textDark">Reservation Management</h2>
+                        <p class="text-xs text-gray-500">View, edit, and manage all table reservations.</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="relative w-72">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-amber-700 text-xs"></i>
+                            <input type="text" id="search-reservation" onkeyup="filterReservations()" placeholder="Search by name, phone or reservation no..." class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-geats-border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-amber-400">
+                        </div>
+                        <button onclick="openModal('modal-new-reservation')" class="px-5 py-2.5 bg-geats-sidebar hover:bg-geats-sidebarHover text-white font-bold text-xs rounded-xl shadow-sm transition flex items-center gap-2 whitespace-nowrap">
+                            <i class="fa-solid fa-plus"></i> New Reservation
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-geats-border shadow-sm overflow-hidden">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="bg-amber-50/70 text-amber-950 border-b border-amber-100 text-xs font-bold uppercase tracking-wider">
+                                <th class="p-4">#</th>
+                                <th class="p-4">Reservation No.</th>
+                                <th class="p-4">Client Name</th>
+                                <th class="p-4">Date & Time</th>
+                                <th class="p-4">Guests</th>
+                                <th class="p-4">Status</th>
+                                <th class="p-4 text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <!-- PRESERVED TABLE BODY ID FOR SUPABASE INTEGRATION -->
+                        <tbody class="divide-y divide-amber-50" id="reservation-table-body">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="tab-client-tracking" class="tab-content hidden space-y-6">
+                <div class="flex justify-between items-center bg-white p-5 rounded-2xl border border-geats-border shadow-xs">
+                    <div>
+                        <h2 class="heading-font text-xl font-bold text-geats-textDark">Client Tracking</h2>
+                        <p class="text-xs text-gray-500">Monitor your clients and their dining history.</p>
+                    </div>
+                    <div class="relative w-80">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-amber-700 text-xs"></i>
+                        <input type="text" id="search-client" onkeyup="filterClients()" placeholder="Search by client name or phone number..." class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-geats-border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-amber-400">
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-geats-border shadow-sm overflow-hidden">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="bg-amber-50/70 text-amber-950 border-b border-amber-100 text-xs font-bold uppercase tracking-wider">
+                                <th class="p-4">#</th>
+                                <th class="p-4">Name</th>
+                                <th class="p-4">Phone</th>
+                                <th class="p-4">Total Orders</th>
+                                <th class="p-4">Last Visit</th>
+                                <th class="p-4">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-amber-50" id="table-clients">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="tab-order-mgmt" class="tab-content hidden space-y-6">
+                <div class="flex justify-between items-center bg-white p-5 rounded-2xl border border-geats-border shadow-xs">
+                    <div>
+                        <h2 class="heading-font text-xl font-bold text-geats-textDark">Order Management</h2>
+                        <p class="text-xs text-gray-500">Manage and update customer orders in real-time.</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="relative w-80">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-amber-700 text-xs"></i>
+                            <input type="text" id="search-order" onkeyup="filterOrders()" placeholder="Search by order no, or client name..." class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-geats-border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-amber-400">
+                        </div>
+                        <button onclick="alert('Filter applied!')" class="px-4 py-2.5 bg-amber-100 hover:bg-amber-200 text-amber-950 font-bold text-xs rounded-xl border border-amber-300 transition flex items-center gap-2">
+                            <i class="fa-solid fa-filter"></i> Filter
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-geats-border shadow-sm overflow-hidden">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="bg-amber-50/70 text-amber-950 border-b border-amber-100 text-xs font-bold uppercase tracking-wider">
+                                <th class="p-4">#</th>
+                                <th class="p-4">Order No.</th>
+                                <th class="p-4">Client Name</th>
+                                <th class="p-4">Items</th>
+                                <th class="p-4">Total</th>
+                                <th class="p-4">Status</th>
+                                <th class="p-4 text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-amber-50" id="table-orders">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="tab-status-monitoring" class="tab-content hidden space-y-6">
+                <div class="bg-white rounded-2xl p-6 border border-geats-border shadow-sm">
+                    <h2 class="heading-font text-xl font-bold text-geats-textDark mb-1">Order Status Monitoring</h2>
+                    <p class="text-xs text-gray-500 mb-6">Track real-time status of all incoming orders.</p>
+
+                    <div class="grid grid-cols-4 gap-6">
+                        <div class="bg-amber-50 rounded-2xl p-5 text-center border border-amber-200">
+                            <div class="w-12 h-12 rounded-full bg-amber-200 text-amber-900 flex items-center justify-center mx-auto mb-2 text-xl shadow-xs">
+                                <i class="fa-solid fa-hourglass-half"></i>
+                            </div>
+                            <p class="text-xs font-bold text-amber-900 uppercase tracking-wider">Pending</p>
+                            <h3 class="heading-font text-3xl font-black text-amber-950 mt-1" id="pipe-pending">6</h3>
+                        </div>
+
+                        <div class="bg-orange-50 rounded-2xl p-5 text-center border border-orange-200">
+                            <div class="w-12 h-12 rounded-full bg-orange-200 text-orange-900 flex items-center justify-center mx-auto mb-2 text-xl shadow-xs">
+                                <i class="fa-solid fa-fire-burner"></i>
+                            </div>
+                            <p class="text-xs font-bold text-orange-900 uppercase tracking-wider">Preparing</p>
+                            <h3 class="heading-font text-3xl font-black text-orange-950 mt-1" id="pipe-preparing">8</h3>
+                        </div>
+
+                        <div class="bg-red-50 rounded-2xl p-5 text-center border border-red-200">
+                            <div class="w-12 h-12 rounded-full bg-red-200 text-red-900 flex items-center justify-center mx-auto mb-2 text-xl shadow-xs">
+                                <i class="fa-solid fa-pause"></i>
+                            </div>
+                            <p class="text-xs font-bold text-red-900 uppercase tracking-wider">On Hold</p>
+                            <h3 class="heading-font text-3xl font-black text-red-950 mt-1" id="pipe-onhold">2</h3>
+                        </div>
+
+                        <div class="bg-emerald-50 rounded-2xl p-5 text-center border border-emerald-200">
+                            <div class="w-12 h-12 rounded-full bg-emerald-200 text-emerald-900 flex items-center justify-center mx-auto mb-2 text-xl shadow-xs">
+                                <i class="fa-solid fa-circle-check"></i>
+                            </div>
+                            <p class="text-xs font-bold text-emerald-900 uppercase tracking-wider">Served</p>
+                            <h3 class="heading-font text-3xl font-black text-emerald-950 mt-1" id="pipe-served">12</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-geats-border shadow-sm overflow-hidden">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="bg-amber-50/70 text-amber-950 border-b border-amber-100 text-xs font-bold uppercase tracking-wider">
+                                <th class="p-4">#</th>
+                                <th class="p-4">Order No.</th>
+                                <th class="p-4">Client Name</th>
+                                <th class="p-4">Items</th>
+                                <th class="p-4">Status</th>
+                                <th class="p-4">Time</th>
+                                <th class="p-4 text-center">Change Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-amber-50" id="table-status-monitoring">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="tab-user-mgmt" class="tab-content hidden space-y-6">
+                <div class="flex justify-between items-center bg-white p-5 rounded-2xl border border-geats-border shadow-xs">
+                    <div>
+                        <h2 class="heading-font text-xl font-bold text-geats-textDark">User Management</h2>
+                        <p class="text-xs text-gray-500">Manage system users and their roles.</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="relative w-80">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-amber-700 text-xs"></i>
+                            <input type="text" id="search-user" onkeyup="filterUsers()" placeholder="Search by name, email or username..." class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-geats-border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-amber-400">
+                        </div>
+                        <button onclick="openModal('modal-add-user')" class="px-5 py-2.5 bg-geats-sidebar hover:bg-geats-sidebarHover text-white font-bold text-xs rounded-xl shadow-sm transition flex items-center gap-2 whitespace-nowrap">
+                            <i class="fa-solid fa-user-plus"></i> Add User
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-geats-border shadow-sm overflow-hidden">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="bg-amber-50/70 text-amber-950 border-b border-amber-100 text-xs font-bold uppercase tracking-wider">
+                                <th class="p-4">#</th>
+                                <th class="p-4">Username</th>
+                                <th class="p-4">Full Name</th>
+                                <th class="p-4">Role</th>
+                                <th class="p-4">Email</th>
+                                <th class="p-4">Status</th>
+                                <th class="p-4 text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-amber-50" id="table-users">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- MODAL 1: NEW RESERVATION -->
+    <div id="modal-new-reservation" class="fixed inset-0 bg-black/50 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border-2 border-amber-200 animate-modal">
+            <div class="flex items-center justify-between border-b border-amber-100 pb-3 mb-4">
+                <h3 class="heading-font text-lg font-bold text-geats-sidebar flex items-center gap-2">
+                    <span>📅</span> Add New Reservation
+                </h3>
+                <button onclick="closeModal('modal-new-reservation')" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <form onsubmit="submitNewReservation(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-amber-950 uppercase mb-1">Client Name</label>
+                    <input type="text" id="modal-res-name" required placeholder="e.g. Maria Santos" class="w-full px-3.5 py-2.5 rounded-xl border border-geats-border text-xs font-semibold focus:ring-2 focus:ring-amber-400 outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-amber-950 uppercase mb-1">Date</label>
+                        <input type="date" id="modal-res-date" required class="w-full px-3.5 py-2.5 rounded-xl border border-geats-border text-xs font-semibold focus:ring-2 focus:ring-amber-400 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-amber-950 uppercase mb-1">Time</label>
+                        <input type="time" id="modal-res-time" required class="w-full px-3.5 py-2.5 rounded-xl border border-geats-border text-xs font-semibold focus:ring-2 focus:ring-amber-400 outline-none">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-amber-950 uppercase mb-1">Guests</label>
+                        <input type="number" id="modal-res-guests" min="1" max="20" value="2" required class="w-full px-3.5 py-2.5 rounded-xl border border-geats-border text-xs font-semibold focus:ring-2 focus:ring-amber-400 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-amber-950 uppercase mb-1">Status</label>
+                        <select id="modal-res-status" class="w-full px-3.5 py-2.5 rounded-xl border border-geats-border text-xs font-semibold focus:ring-2 focus:ring-amber-400 outline-none">
+                            <option value="Confirmed">Confirmed</option>
+                            <option value="Pending">Pending</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="pt-3 flex justify-end gap-2">
+                    <button type="button" onclick="closeModal('modal-new-reservation')" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs rounded-xl">Cancel</button>
+                    <button type="submit" class="px-5 py-2 bg-geats-sidebar hover:bg-geats-sidebarHover text-white font-bold text-xs rounded-xl shadow-sm">Save Reservation</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: ADD USER -->
+    <div id="modal-add-user" class="fixed inset-0 bg-black/50 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border-2 border-amber-200 animate-modal">
+            <div class="flex items-center justify-between border-b border-amber-100 pb-3 mb-4">
+                <h3 class="heading-font text-lg font-bold text-geats-sidebar flex items-center gap-2">
+                    <span>👤</span> Add System User
+                </h3>
+                <button onclick="closeModal('modal-add-user')" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <form onsubmit="submitAddUser(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-amber-950 uppercase mb-1">Full Name</label>
+                    <input type="text" id="user-fullname" required placeholder="e.g. Juan Dela Cruz" class="w-full px-3.5 py-2.5 rounded-xl border border-geats-border text-xs font-semibold focus:ring-2 focus:ring-amber-400 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-amber-950 uppercase mb-1">Username</label>
+                    <input type="text" id="user-username" required placeholder="e.g. staff02" class="w-full px-3.5 py-2.5 rounded-xl border border-geats-border text-xs font-semibold focus:ring-2 focus:ring-amber-400 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-amber-950 uppercase mb-1">Email Address</label>
+                    <input type="email" id="user-email" required placeholder="user@g-eats.com" class="w-full px-3.5 py-2.5 rounded-xl border border-geats-border text-xs font-semibold focus:ring-2 focus:ring-amber-400 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-amber-950 uppercase mb-1">Role</label>
+                    <select id="user-role" class="w-full px-3.5 py-2.5 rounded-xl border border-geats-border text-xs font-semibold focus:ring-2 focus:ring-amber-400 outline-none">
+                        <option value="Staff">Staff</option>
+                        <option value="Cashier">Cashier</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Kitchen Staff">Kitchen Staff</option>
+                        <option value="Administrator">Administrator</option>
+                    </select>
+                </div>
+                <div class="pt-3 flex justify-end gap-2">
+                    <button type="button" onclick="closeModal('modal-add-user')" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs rounded-xl">Cancel</button>
+                    <button type="submit" class="px-5 py-2 bg-geats-sidebar hover:bg-geats-sidebarHover text-white font-bold text-xs rounded-xl shadow-sm">Add User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Data Stores
+        let reservations = [
+            { id: 1, no: 'R-0012', client: 'John Santos', datetime: 'Oct 4, 2026 12:00 PM', guests: 4, status: 'Confirmed' },
+            { id: 2, no: 'R-0011', client: 'Maria Garcia', datetime: 'Oct 4, 2026 01:30 PM', guests: 2, status: 'Confirmed' },
+            { id: 3, no: 'R-0010', client: 'Ana Reyes', datetime: 'Oct 4, 2026 03:00 PM', guests: 3, status: 'Pending' },
+            { id: 4, no: 'R-0009', client: 'Luis Cruz', datetime: 'Oct 4, 2026 05:00 PM', guests: 5, status: 'Confirmed' },
+            { id: 5, no: 'R-0008', client: 'Paolo Dela Cruz', datetime: 'Oct 4, 2026 06:30 PM', guests: 2, status: 'Cancelled' }
+        ];
+
+        let clients = [
+            { id: 1, name: 'John Santos', phone: '0912 345 6789', orders: 5, lastVisit: 'Oct 4, 2026', note: 'Regular', noteType: 'regular' },
+            { id: 2, name: 'Maria Garcia', phone: '0917 222 3344', orders: 8, lastVisit: 'Oct 4, 2026', note: 'VIP', noteType: 'vip' },
+            { id: 3, name: 'Ana Reyes', phone: '0998 111 2233', orders: 3, lastVisit: 'Oct 3, 2026', note: 'New', noteType: 'new' },
+            { id: 4, name: 'Luis Cruz', phone: '0926 765 4321', orders: 6, lastVisit: 'Oct 3, 2026', note: 'Regular', noteType: 'regular' },
+            { id: 5, name: 'Paolo Dela Cruz', phone: '0926 888 1177', orders: 4, lastVisit: 'Oct 2, 2026', note: 'Regular', noteType: 'regular' }
+        ];
+
+        let orders = [
+            { id: 1, no: 'OR-0012', client: 'John Santos', items: 2, total: '₱ 420', status: 'Preparing', time: '10:24 AM' },
+            { id: 2, no: 'OR-0011', client: 'Maria Garcia', items: 3, total: '₱ 680', status: 'Served', time: '10:18 AM' },
+            { id: 3, no: 'OR-0010', client: 'Ana Reyes', items: 2, total: '₱ 360', status: 'On Hold', time: '10:12 AM' },
+            { id: 4, no: 'OR-0009', client: 'Luis Cruz', items: 4, total: '₱ 860', status: 'Preparing', time: '10:05 AM' },
+            { id: 5, no: 'OR-0008', client: 'Paolo Dela Cruz', items: 1, total: '₱ 250', status: 'Served', time: '09:56 AM' }
+        ];
+
+        let users = [
+            { id: 1, username: 'admin', fullname: 'Admin', role: 'Administrator', email: 'admin@g-eats.com', status: 'Active' },
+            { id: 2, username: 'staff01', fullname: 'Juan Dela Cruz', role: 'Staff', email: 'staff01@g-eats.com', status: 'Active' },
+            { id: 3, username: 'cashier01', fullname: 'Maria Santos', role: 'Cashier', email: 'cashier01@g-eats.com', status: 'Active' },
+            { id: 4, username: 'manager01', fullname: 'Reynaldo Lopez', role: 'Manager', email: 'manager01@g-eats.com', status: 'Active' },
+            { id: 5, username: 'kitchen01', fullname: 'Anna Reyes', role: 'Kitchen Staff', email: 'kitchen01@g-eats.com', status: 'Active' }
+        ];
+
+        // Tab Navigation
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById(`tab-${tabId}`);
+            if (target) target.classList.remove('hidden');
+
+            document.querySelectorAll('.nav-item').forEach(btn => {
+                btn.className = 'nav-item w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 text-amber-100 hover:bg-geats-sidebarHover hover:text-white';
+            });
+
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeNav) {
+                activeNav.className = 'nav-item w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 bg-geats-sidebarActive text-geats-sidebar font-bold shadow-md';
+            }
+
+            const titles = {
+                'dashboard': 'Dashboard',
+                'easy-reservation': 'Easy Reservation',
+                'reservation-mgmt': 'Reservation Management',
+                'client-tracking': 'Client Tracking',
+                'order-mgmt': 'Order Management',
+                'status-monitoring': 'Order Status Monitoring',
+                'user-mgmt': 'User Management'
+            };
+            document.getElementById('top-bar-title').innerText = titles[tabId] || 'Dashboard';
+        }
+
+        // Badges helper
+        function getStatusBadgeHtml(status) {
+            switch(status) {
+                case 'Preparing':
+                    return `<span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900 border border-amber-200"><i class="fa-solid fa-spinner animate-spin mr-1.5"></i>Preparing</span>`;
+                case 'Served':
+                case 'Confirmed':
+                case 'Active':
+                    return `<span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200"><i class="fa-solid fa-check mr-1.5"></i>${status}</span>`;
+                case 'On Hold':
+                case 'Pending':
+                    return `<span class="px-3 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-800 border border-orange-200"><i class="fa-solid fa-clock mr-1.5"></i>${status}</span>`;
+                case 'Cancelled':
+                case 'Inactive':
+                    return `<span class="px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800 border border-red-200"><i class="fa-solid fa-xmark mr-1.5"></i>${status}</span>`;
+                default:
+                    return `<span class="px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-800">${status}</span>`;
+            }
+        }
+
+        function getNoteTagHtml(note, type) {
+            let cls = "bg-gray-100 text-gray-700";
+            if (type === 'vip') cls = "bg-purple-100 text-purple-800 border border-purple-200";
+            if (type === 'regular') cls = "bg-blue-100 text-blue-800 border border-blue-200";
+            if (type === 'new') cls = "bg-emerald-100 text-emerald-800 border border-emerald-200";
+            return `<span class="px-3 py-1 rounded-full text-xs font-bold ${cls}">${note}</span>`;
+        }
+
+        // Table Rendering Functions
+        function renderDashboardOrders() {
+            const tbody = document.getElementById('dash-orders-table');
+            tbody.innerHTML = orders.slice(0, 5).map((o, idx) => `
+                <tr class="hover:bg-amber-50/50 transition">
+                    <td class="p-3.5 font-semibold text-gray-500">${idx + 1}</td>
+                    <td class="p-3.5 font-bold text-geats-sidebar">${o.no}</td>
+                    <td class="p-3.5 font-semibold text-gray-800">${o.client}</td>
+                    <td class="p-3.5">${getStatusBadgeHtml(o.status)}</td>
+                    <td class="p-3.5 text-xs text-gray-500 font-semibold">${o.time}</td>
+                </tr>
+            `).join('');
+        }
+
+        function renderReservationsTable(data = reservations) {
+            const tbody = document.getElementById('reservation-table-body');
+            tbody.innerHTML = data.map((r, idx) => `
+                <tr class="hover:bg-amber-50/50 transition">
+                    <td class="p-4 font-semibold text-gray-500">${idx + 1}</td>
+                    <td class="p-4 font-bold text-geats-sidebar">${r.no}</td>
+                    <td class="p-4 font-bold text-gray-800">${r.client}</td>
+                    <td class="p-4 text-xs font-semibold text-gray-600">${r.datetime}</td>
+                    <td class="p-4 font-bold text-gray-700">${r.guests}</td>
+                    <td class="p-4">${getStatusBadgeHtml(r.status)}</td>
+                    <td class="p-4 text-center">
+                        <button onclick="toggleResStatus(${r.id})" class="px-3 py-1.5 bg-amber-100 hover:bg-amber-200 text-amber-950 rounded-lg text-xs font-bold transition">Toggle Status</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderClientsTable(data = clients) {
+            const tbody = document.getElementById('table-clients');
+            tbody.innerHTML = data.map((c, idx) => `
+                <tr class="hover:bg-amber-50/50 transition">
+                    <td class="p-4 font-semibold text-gray-500">${idx + 1}</td>
+                    <td class="p-4 font-bold text-gray-800">${c.name}</td>
+                    <td class="p-4 text-xs font-semibold text-gray-600">${c.phone}</td>
+                    <td class="p-4 font-extrabold text-geats-sidebar">${c.orders}</td>
+                    <td class="p-4 text-xs font-medium text-gray-500">${c.lastVisit}</td>
+                    <td class="p-4">${getNoteTagHtml(c.note, c.noteType)}</td>
+                </tr>
+            `).join('');
+        }
+
+        function renderOrdersTable(data = orders) {
+            const tbody = document.getElementById('table-orders');
+            tbody.innerHTML = data.map((o, idx) => `
+                <tr class="hover:bg-amber-50/50 transition">
+                    <td class="p-4 font-semibold text-gray-500">${idx + 1}</td>
+                    <td class="p-4 font-bold text-geats-sidebar">${o.no}</td>
+                    <td class="p-4 font-bold text-gray-800">${o.client}</td>
+                    <td class="p-4 font-semibold text-gray-700">${o.items} items</td>
+                    <td class="p-4 font-extrabold text-amber-950">${o.total}</td>
+                    <td class="p-4">${getStatusBadgeHtml(o.status)}</td>
+                    <td class="p-4 text-center">
+                        <button onclick="nextOrderStatus(${o.id})" class="px-3 py-1.5 bg-geats-sidebar hover:bg-geats-sidebarHover text-white rounded-lg text-xs font-bold transition">Advance Status</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderStatusMonitoringTable(data = orders) {
+            const tbody = document.getElementById('table-status-monitoring');
+            tbody.innerHTML = data.map((o, idx) => `
+                <tr class="hover:bg-amber-50/50 transition">
+                    <td class="p-4 font-semibold text-gray-500">${idx + 1}</td>
+                    <td class="p-4 font-bold text-geats-sidebar">${o.no}</td>
+                    <td class="p-4 font-bold text-gray-800">${o.client}</td>
+                    <td class="p-4 font-semibold text-gray-700">${o.items} items</td>
+                    <td class="p-4">${getStatusBadgeHtml(o.status)}</td>
+                    <td class="p-4 text-xs font-semibold text-gray-500">${o.time}</td>
+                    <td class="p-4 text-center">
+                        <select onchange="changeOrderStatusDirect(${o.id}, this.value)" class="px-3 py-1.5 bg-amber-50 border border-amber-200 rounded-xl text-xs font-bold text-amber-950 focus:outline-none">
+                            <option value="Pending" ${o.status==='Pending'?'selected':''}>Pending</option>
+                            <option value="Preparing" ${o.status==='Preparing'?'selected':''}>Preparing</option>
+                            <option value="On Hold" ${o.status==='On Hold'?'selected':''}>On Hold</option>
+                            <option value="Served" ${o.status==='Served'?'selected':''}>Served</option>
+                        </select>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderUsersTable(data = users) {
+            const tbody = document.getElementById('table-users');
+            tbody.innerHTML = data.map((u, idx) => `
+                <tr class="hover:bg-amber-50/50 transition">
+                    <td class="p-4 font-semibold text-gray-500">${idx + 1}</td>
+                    <td class="p-4 font-bold text-geats-sidebar">@${u.username}</td>
+                    <td class="p-4 font-bold text-gray-800">${u.fullname}</td>
+                    <td class="p-4 font-bold text-amber-900">${u.role}</td>
+                    <td class="p-4 text-xs font-medium text-gray-600">${u.email}</td>
+                    <td class="p-4">${getStatusBadgeHtml(u.status)}</td>
+                    <td class="p-4 text-center">
+                        <button onclick="toggleUserStatus(${u.id})" class="px-3 py-1.5 bg-amber-100 hover:bg-amber-200 text-amber-950 rounded-lg text-xs font-bold transition">Toggle Status</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Live Search Filters
+        function filterReservations() {
+            const q = document.getElementById('search-reservation').value.toLowerCase();
+            renderReservationsTable(reservations.filter(r => r.client.toLowerCase().includes(q) || r.no.toLowerCase().includes(q)));
+        }
+
+        function filterClients() {
+            const q = document.getElementById('search-client').value.toLowerCase();
+            renderClientsTable(clients.filter(c => c.name.toLowerCase().includes(q) || c.phone.toLowerCase().includes(q)));
+        }
+
+        function filterOrders() {
+            const q = document.getElementById('search-order').value.toLowerCase();
+            renderOrdersTable(orders.filter(o => o.client.toLowerCase().includes(q) || o.no.toLowerCase().includes(q)));
+        }
+
+        function filterUsers() {
+            const q = document.getElementById('search-user').value.toLowerCase();
+            renderUsersTable(users.filter(u => u.fullname.toLowerCase().includes(q) || u.email.toLowerCase().includes(q) || u.username.toLowerCase().includes(q)));
+        }
+
+        // Modal Helpers
+        function openModal(id) {
+            const el = document.getElementById(id);
+            el.classList.remove('hidden');
+            el.classList.add('flex');
+        }
+
+        function closeModal(id) {
+            const el = document.getElementById(id);
+            el.classList.add('hidden');
+            el.classList.remove('flex');
+        }
+
+        function submitEasyReservation(e) {
+            if (e) e.preventDefault();
+            const name = document.getElementById('ez-name').value;
+            const phone = document.getElementById('ez-phone').value;
+            const date = document.getElementById('ez-date').value || 'Oct 4, 2026';
+            const time = document.getElementById('ez-time').value;
+            const guests = document.getElementById('ez-guests').value;
+
+            reservations.unshift({
+                id: Date.now(),
+                no: 'R-00' + (reservations.length + 8),
+                client: name,
+                datetime: `${date} ${time}`,
+                guests: guests,
+                status: 'Confirmed'
+            });
+
+            if (!clients.some(c => c.name.toLowerCase() === name.toLowerCase())) {
+                clients.unshift({
+                    id: Date.now(),
+                    name: name,
+                    phone: phone,
+                    orders: 1,
+                    lastVisit: 'Oct 4, 2026',
+                    note: 'New',
+                    noteType: 'new'
+                });
+            }
+
+            refreshAll();
+            alert(`🎉 Reservation confirmed for ${name} on ${date} at ${time}.`);
+            document.getElementById('easy-reserve-form').reset();
+            switchTab('reservation-mgmt');
+        }
+
+        function submitNewReservation(e) {
+            e.preventDefault();
+            const name = document.getElementById('modal-res-name').value;
+            const date = document.getElementById('modal-res-date').value || 'Oct 4, 2026';
+            const time = document.getElementById('modal-res-time').value;
+            const guests = document.getElementById('modal-res-guests').value;
+            const status = document.getElementById('modal-res-status').value;
+
+            reservations.unshift({
+                id: Date.now(),
+                no: 'R-00' + (reservations.length + 8),
+                client: name,
+                datetime: `${date} ${time}`,
+                guests: guests + ' Guests',
+                status: status
+            });
+
+            closeModal('modal-new-reservation');
+            refreshAll();
+        }
+
+        function submitAddUser(e) {
+            e.preventDefault();
+            users.push({
+                id: Date.now(),
+                username: document.getElementById('user-username').value,
+                fullname: document.getElementById('user-fullname').value,
+                role: document.getElementById('user-role').value,
+                email: document.getElementById('user-email').value,
+                status: 'Active'
+            });
+
+            closeModal('modal-add-user');
+            refreshAll();
+        }
+
+        function toggleResStatus(id) {
+            const item = reservations.find(r => r.id === id);
+            if (item) {
+                item.status = item.status === 'Confirmed' ? 'Cancelled' : 'Confirmed';
+                refreshAll();
+            }
+        }
+
+        function nextOrderStatus(id) {
+            const item = orders.find(o => o.id === id);
+            if (item) {
+                const stepMap = { 'Pending': 'Preparing', 'Preparing': 'Served', 'On Hold': 'Preparing', 'Served': 'Pending' };
+                item.status = stepMap[item.status] || 'Preparing';
+                refreshAll();
+            }
+        }
+
+        function changeOrderStatusDirect(id, newStatus) {
+            const item = orders.find(o => o.id === id);
+            if (item) {
+                item.status = newStatus;
+                refreshAll();
+            }
+        }
+
+        function toggleUserStatus(id) {
+            const u = users.find(x => x.id === id);
+            if (u) {
+                u.status = u.status === 'Active' ? 'Inactive' : 'Active';
+                refreshAll();
+            }
+        }
+
+        function refreshAll() {
+            renderDashboardOrders();
+            renderReservationsTable();
+            renderClientsTable();
+            renderOrdersTable();
+            renderStatusMonitoringTable();
+            renderUsersTable();
+
+            document.getElementById('dash-res-count').innerText = reservations.length;
+            document.getElementById('dash-orders-count').innerText = orders.length;
+            document.getElementById('dash-clients-count').innerText = clients.length;
+            document.getElementById('dash-pending-count').innerText = orders.filter(o => o.status === 'Pending' || o.status === 'Preparing').length;
+
+            document.getElementById('pipe-pending').innerText = orders.filter(o => o.status === 'Pending').length;
+            document.getElementById('pipe-preparing').innerText = orders.filter(o => o.status === 'Preparing').length;
+            document.getElementById('pipe-onhold').innerText = orders.filter(o => o.status === 'On Hold').length;
+            document.getElementById('pipe-served').innerText = orders.filter(o => o.status === 'Served').length;
+        }
+
+        window.onload = function() {
+            refreshAll();
+        }
+    </script>
+</body>
+</html>
